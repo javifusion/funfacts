@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title></title>
+<style>
+  :root { --bg: #f6c9e7; --ink: #17131d; }
+  * { box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; margin: 0; }
+  body {
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Trebuchet MS", "Arial Rounded MT Bold", system-ui, sans-serif;
+    transition: background-color .25s ease;
+  }
+  #fortune {
+    width: min(900px, 90vw);
+    text-align: center;
+    font-size: clamp(1.7rem, 5vw, 4.2rem);
+    line-height: 1.15;
+    font-weight: 900;
+    letter-spacing: -.045em;
+    padding: 1rem;
+    animation: fortune-chaos 2.7s ease-in-out infinite;
+    transform-origin: center;
+    overflow-wrap: anywhere;
+  }
+  @keyframes fortune-chaos {
+    0%, 100% { transform: translate(0, 0) rotate(-1.3deg) scale(1); }
+    17% { transform: translate(5px, -8px) rotate(1.8deg) scale(1.025); }
+    35% { transform: translate(-7px, 4px) rotate(-2.1deg) scale(.99); }
+    53% { transform: translate(3px, 7px) rotate(1.1deg) scale(1.035); }
+    72% { transform: translate(-5px, -4px) rotate(-.7deg) scale(1.01); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    #fortune { animation: none; }
+  }
+</style>
+</head>
+<body>
+  <main id="fortune" aria-live="polite"></main>
+<script>
+(() => {
+  const people = [
+    { name: "Alexander", facts: [
+      "secretly thinks every essay needs more drama.",
+      "has the same sleep schedule as a Victorian ghost.",
+      "would say “lowkey” during a life-or-death situation."
+    ]},
+    { name: "Arlhin", facts: [
+      "secretly knows who is pretending to be busy at school.",
+      "would survive a zombie apocalypse by saying “let's circle back.”",
+      "has the facial expression of someone who knows the group chat lore."
+    ]},
+    { name: "Calvenia", facts: [
+      "secretly hopes someone asks about a weird historical fact.",
+      "would go back in time just to leave a “first” comment on the pyramids.",
+      "has “I have receipts” energy, but the receipts are from 1453."
+    ]},
+    { name: "Carla", facts: [
+      "secretly hopes someone makes a math mistake so she can catch it.",
+      "would calculate the odds of winning the lottery and still buy a ticket.",
+      "has beef with the number 7 and refuses to elaborate."
+    ]},
+    { name: "Cristina", facts: [
+      "secretly knows who hasn't checked their school email.",
+      "could say “interesting choice” and ruin someone's entire week.",
+      "has the aura of someone who knows what you did in 2019."
+    ]},
+    { name: "Devan", facts: [
+      "secretly thinks he could beat everyone at chess.",
+      "would say “checkmate” after winning rock-paper-scissors.",
+      "has definitely blamed lag after losing a board game."
+    ]},
+    { name: "Elyssa", facts: [
+      "secretly hopes everyone remembers their homework.",
+      "would give a motivational speech to a chicken nugget.",
+      "has the energy of someone who says “I'm fine” while carrying 37 side quests."
+    ]},
+    { name: "Emily", facts: [
+      "secretly thinks salty sugar is a valid food group.",
+      "would correct a ghost's grammar before running away.",
+      "has beef with autocorrect because it keeps exposing her."
+    ]},
+    { name: "Indigo", facts: [
+      "secretly hopes one science experiment gets a little too exciting.",
+      "would drink a potion labeled “probably fine.”",
+      "has definitely said “for science” before making a questionable decision."
+    ]},
+    { name: "Javi", facts: [
+      "secretly thinks everyone should bow when he enters the room.",
+      "has enough king aura to make a Roomba move out of his way.",
+      "would put “professional yapper” on his résumé and get hired immediately."
+    ]},
+    { name: "Jen", facts: [
+      "secretly hopes everyone gets sore after PE.",
+      "would race a shopping cart and take the loss personally.",
+      "has the energy of someone who says “light work” before the hardest workout ever."
+    ]},
+    { name: "Jordi", facts: [
+      "secretly judges everyone's outfit colors.",
+      "would redesign the Mona Lisa and make her serve even harder.",
+      "has 47 Pinterest boards and calls it “research.”"
+    ]},
+    { name: "JD", facts: [
+      "secretly hopes someone gets x wrong so he can say “I told you so.”",
+      "would argue with a calculator and somehow lose.",
+      "has the survival instincts of a moth near a lamp."
+    ]},
+    { name: "Julia", facts: [
+      "secretly knows everyone's business before they sign in.",
+      "could say “no worries” in a tone that causes immediate worry.",
+      "would accidentally become mayor because she knows everybody."
+    ]},
+    { name: "Kat", facts: [
+      "secretly thinks fractions are personally attacking her.",
+      "would lose her phone while using the flashlight on it.",
+      "has the confidence of someone who clicked “remind me tomorrow” for 8 years."
+    ]},
+    { name: "Kevin", facts: [
+      "secretly thinks Pamela is short.",
+      "would bring a PowerPoint to an argument and still be wrong.",
+      "has the aura of someone who says “trust me” right before disaster."
+    ]},
+    { name: "Loretta", facts: [
+      "secretly wishes everyone would read their school emails.",
+      "could stare at a printer until it starts behaving out of fear.",
+      "would survive on iced coffee and pure administrative power."
+    ]},
+    { name: "Mallory", facts: [
+      "secretly thinks everyone should take a campus tour.",
+      "could accidentally recruit a raccoon into a school open house.",
+      "has the rizz of someone who says “per my last email.”"
+    ]},
+    { name: "Marissa", facts: [
+      "secretly fixes everyone's grammar in her head.",
+      "would proofread a ransom note before calling the police.",
+      "has a Notes app apology drafted for a conversation that hasn't happened."
+    ]},
+    { name: "Mary", facts: [
+      "secretly hopes one science experiment makes a suspicious noise.",
+      "would trust a mysterious glowing liquid if it had a cute label.",
+      "has the energy of someone who says “what's the worst that could happen?”"
+    ]},
+    { name: "Miguel", facts: [
+      "secretly hopes someone asks him a history question at lunch.",
+      "would call ancient Rome “the original group chat meltdown.”",
+      "has been saying “back in my day” since approximately yesterday."
+    ]},
+    { name: "Milosz", facts: [
+      "secretly judges everyone's music taste.",
+      "would put a dramatic soundtrack over making toast.",
+      "has a playlist for when the microwave hits 00:01."
+    ]},
+    { name: "Page", facts: [
+      "secretly thinks everyone should show their work.",
+      "would calculate the exact chance of being productive and then take a nap.",
+      "has beef with a calculator that one time gave a weird answer."
+    ]},
+    { name: "Pamela", facts: [
+      "secretly thinks Kevin is short.",
+      "would start a rumor and then ask for a source.",
+      "has the energy of someone who says “I'm not being dramatic” during a full cinematic meltdown."
+    ]},
+    { name: "Sarah", facts: [
+      "secretly hopes her experiments explode.",
+      "would name a lab rat after someone she dislikes and call it “research.”",
+      "has definitely said “this is probably safe” with absolutely no evidence."
+    ]},
+    { name: "Tatiana", facts: [
+      "secretly hopes someone brings up ancient history at lunch.",
+      "would go back to the Middle Ages and immediately start drama.",
+      "has the gossip instincts of a medieval town crier."
+    ]},
+    { name: "Yam", facts: [
+      "secretly hopes a science experiment gets weird.",
+      "would try to photosynthesize instead of getting out of bed.",
+      "has the vibe of someone who would befriend an alien before asking its name."
+    ]},
+    { name: "Zoe", facts: [
+      "secretly gives everyone a D&D alignment.",
+      "would roll a d20 to decide whether to answer a text.",
+      "has definitely planned a whole campaign instead of doing one small task."
+    ]}
+  ];
+
+  const colors = [
+    "#f7b7d2", "#bfe7d0", "#b9d8ff", "#ffe3a3", "#d8c4ff",
+    "#ffc6a8", "#c5f0ef", "#f5c2f2", "#d7e8a6", "#f4d5b8",
+    "#c9c7ff", "#ffd1dc", "#b8e0d2", "#e6d5b8", "#cce3ff"
+  ];
+
+  const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+  const person = pick(people);
+  const fortune = `${person.name} ${pick(person.facts)}`;
+
+  // Avoid repeating the same background on consecutive reloads when possible.
+  let color = pick(colors);
+  try {
+    const previous = sessionStorage.getItem("fortune-color");
+    const choices = colors.filter(c => c !== previous);
+    color = pick(choices.length ? choices : colors);
+    sessionStorage.setItem("fortune-color", color);
+  } catch (_) {}
+  document.documentElement.style.setProperty("--bg", color);
+  document.getElementById("fortune").textContent =
+    fortune.charAt(0).toUpperCase() + fortune.slice(1);
+})();
+</script>
+</body>
+</html>
